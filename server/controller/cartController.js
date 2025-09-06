@@ -1,4 +1,4 @@
-import { addToCart, removeFromCart, getCart } from "../services/cartService.js";
+import { addToCart, removeFromCart, getCart } from "../service/cartService.js";
 
 export async function addToCartCtrl(req, res) {
   try {
