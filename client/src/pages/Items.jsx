@@ -11,6 +11,19 @@ export default function Items() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const categories = [
+    "Food",
+    "Electronics",
+    "Clothing",
+    "Books",
+    "Home",
+    "Beauty",
+    "Sports",
+    "Toys",
+    "Automotive",
+    "Health",
+    "Other"
+  ];
   const [filters, setFilters] = useState({ category: "", minPrice: "", maxPrice: "" });
 
   // Fetch items
@@ -64,13 +77,16 @@ export default function Items() {
 
         {/* Filters */}
         <div className="flex flex-wrap gap-4 mb-8 justify-center items-center bg-white p-4 rounded shadow">
-          <input
-            type="text"
-            placeholder="Category"
+          <select
             value={filters.category}
             onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-            className="border rounded px-3 py-2 focus:outline-none focus:ring w-40"
-          />
+            className="border rounded px-3 py-2 focus:outline-none focus:ring w-40 bg-white"
+          >
+            <option value="">All Categories</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
           <input
             type="number"
             placeholder="Min Price"

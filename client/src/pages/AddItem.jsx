@@ -4,11 +4,24 @@ import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
 export default function AddItem() {
+  const categories = [
+    "Food",
+    "Electronics",
+    "Clothing",
+    "Books",
+    "Home",
+    "Beauty",
+    "Sports",
+    "Toys",
+    "Automotive",
+    "Health",
+    "Other"
+  ];
   const [form, setForm] = useState({
     name: "",
     description: "",
     price: "",
-    category: "",
+    category: categories[0],
     imageUrl: ""
   });
   const [error, setError] = useState("");
@@ -70,14 +83,17 @@ export default function AddItem() {
           />
         </div>
         <div className="mb-4">
-          <input
+          <select
             name="category"
-            placeholder="Category"
             value={form.category}
             onChange={handleChange}
             required
-            className="border rounded px-3 py-2 w-full focus:outline-none focus:ring"
-          />
+            className="border rounded px-3 py-2 w-full focus:outline-none focus:ring bg-white"
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
         </div>
         <div className="mb-4">
           <input
