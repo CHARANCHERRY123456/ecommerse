@@ -13,42 +13,26 @@ export default function Navbar() {
   };
 
   return (
-    <nav
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        padding: "10px 20px",
-        background: "#222",
-        color: "#fff",
-      }}
-    >
-      <div>
-        <Link to="/items" style={{ color: "white", marginRight: "15px" }}>
-          Items
-        </Link>
-        <Link to="/cart" style={{ color: "white", marginRight: "15px" }}>
-          Cart
-        </Link>
+    <nav className="sticky top-0 z-10 bg-blue-900 text-white shadow flex justify-between items-center px-6 py-3">
+      <div className="flex gap-6 items-center">
+        <Link to="/items" className="font-semibold hover:text-blue-300 transition">Items</Link>
+        <Link to="/cart" className="font-semibold hover:text-blue-300 transition">Cart</Link>
       </div>
-
-      <div>
+      <div className="flex gap-4 items-center">
         {token ? (
           <>
-            <span style={{ marginRight: "15px" }}>
-              Hi, {user?.name || "User"}
-            </span>
-            <button onClick={handleLogout} style={{ cursor: "pointer" }}>
+            <span className="font-medium">Hi, {user?.name || "User"}</span>
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded transition"
+            >
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" style={{ color: "white", marginRight: "15px" }}>
-              Login
-            </Link>
-            <Link to="/signup" style={{ color: "white" }}>
-              Signup
-            </Link>
+            <Link to="/login" className="font-semibold hover:text-blue-300 transition">Login</Link>
+            <Link to="/signup" className="font-semibold hover:text-blue-300 transition">Signup</Link>
           </>
         )}
       </div>

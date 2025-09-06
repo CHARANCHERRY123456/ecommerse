@@ -48,63 +48,85 @@ export default function Signup() {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: 400, margin: "auto" }}>
-      <h2>Signup</h2>
-      {serverError && <div style={{ color: "red", marginBottom: 8 }}>{serverError}</div>}
-      <div style={{ marginBottom: 12 }}>
-        <input
-          name="name"
-          placeholder="Name"
-          value={form.name}
-          onChange={handleChange}
-          required
-          style={{ width: "100%" }}
-        />
-        {errors.name && <div style={{ color: "red" }}>{errors.name}</div>}
-      </div>
-      <div style={{ marginBottom: 12 }}>
-        <input
-          name="email"
-          placeholder="Email"
-          type="email"
-          value={form.email}
-          onChange={handleChange}
-          required
-          style={{ width: "100%" }}
-        />
-        {errors.email && <div style={{ color: "red" }}>{errors.email}</div>}
-      </div>
-      <div style={{ marginBottom: 12 }}>
-        <input
-          name="password"
-          placeholder="Password"
-          type={showPassword ? "text" : "password"}
-          value={form.password}
-          onChange={handleChange}
-          required
-          style={{ width: "100%" }}
-        />
-        <button type="button" onClick={() => setShowPassword((v) => !v)} style={{ marginLeft: 8 }}>
-          {showPassword ? "Hide" : "Show"}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
+      >
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Signup</h2>
+        {serverError && (
+          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            {serverError}
+          </div>
+        )}
+        <div className="mb-4">
+          <input
+            name="name"
+            placeholder="Name"
+            value={form.name}
+            onChange={handleChange}
+            required
+            className="border rounded px-3 py-2 w-full focus:outline-none focus:ring"
+          />
+          {errors.name && <div className="text-red-600 text-sm mt-1">{errors.name}</div>}
+        </div>
+        <div className="mb-4">
+          <input
+            name="email"
+            placeholder="Email"
+            type="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+            className="border rounded px-3 py-2 w-full focus:outline-none focus:ring"
+          />
+          {errors.email && <div className="text-red-600 text-sm mt-1">{errors.email}</div>}
+        </div>
+        <div className="mb-4 relative">
+          <input
+            name="password"
+            placeholder="Password"
+            type={showPassword ? "text" : "password"}
+            value={form.password}
+            onChange={handleChange}
+            required
+            className="border rounded px-3 py-2 w-full focus:outline-none focus:ring"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((v) => !v)}
+            className="absolute right-2 top-2 text-sm text-blue-600"
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+          {errors.password && <div className="text-red-600 text-sm mt-1">{errors.password}</div>}
+        </div>
+        <div className="mb-6 relative">
+          <input
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            type={showConfirm ? "text" : "password"}
+            value={form.confirmPassword}
+            onChange={handleChange}
+            required
+            className="border rounded px-3 py-2 w-full focus:outline-none focus:ring"
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirm((v) => !v)}
+            className="absolute right-2 top-2 text-sm text-blue-600"
+          >
+            {showConfirm ? "Hide" : "Show"}
+          </button>
+          {errors.confirmPassword && <div className="text-red-600 text-sm mt-1">{errors.confirmPassword}</div>}
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition font-semibold"
+        >
+          Signup
         </button>
-        {errors.password && <div style={{ color: "red" }}>{errors.password}</div>}
-      </div>
-      <div style={{ marginBottom: 12 }}>
-        <input
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          type={showConfirm ? "text" : "password"}
-          value={form.confirmPassword}
-          onChange={handleChange}
-          required
-          style={{ width: "100%" }}
-        />
-        <button type="button" onClick={() => setShowConfirm((v) => !v)} style={{ marginLeft: 8 }}>
-          {showConfirm ? "Hide" : "Show"}
-        </button>
-        {errors.confirmPassword && <div style={{ color: "red" }}>{errors.confirmPassword}</div>}
-      </div>
-      <button type="submit" style={{ width: "100%", padding: "10px" }}>Signup</button>
-    </form>
+      </form>
+    </div>
   );
 }
