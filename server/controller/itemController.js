@@ -5,7 +5,7 @@ import {
   getItemById,
   updateItem,
   deleteItem
-} from "../service/itemService.js";
+} from "../service/ItemService.js";
 
 export async function createItemCtrl(req, res) {
   try {
