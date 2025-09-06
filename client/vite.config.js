@@ -7,21 +7,6 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   build: {
     outDir: 'dist',
-    assetsDir: 'assets',
-    sourcemap: false,
-    minify: 'terser',
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          axios: ['axios']
-        }
-      }
-    }
-  },
-  server: {
-    port: 5173,
-    host: true
+    sourcemap: false
   }
 })
