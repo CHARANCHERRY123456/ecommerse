@@ -19,14 +19,13 @@ export default function Items() {
     setError("");
     try {
       const { data } = await api.get("/items", {
-        headers: { Authorization: `Bearer ${token}` },
         params: {
           category: filters.category || undefined,
           minPrice: filters.minPrice || undefined,
           maxPrice: filters.maxPrice || undefined,
         },
       });
-      setItems(data);
+      setItems(data.items);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load items");
     } finally {
@@ -38,16 +37,20 @@ export default function Items() {
     fetchItems();
   }, []);
 
+  const [addCartError, setAddCartError] = useState("");
+  const [addCartSuccess, setAddCartSuccess] = useState("");
   const handleAddToCart = async (itemId) => {
+    setAddCartError("");
+    setAddCartSuccess("");
     try {
       await api.post(
         "/cart/add",
-        { itemId, quantity: 1 },
+        { itemId, quantity: 1 }
       );
-      alert("Item added to cart");
+      setAddCartSuccess("Item added to cart");
       navigate("/cart");
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to add item");
+      setAddCartError(err.response?.data?.message || "Failed to add item");
     }
   };
 
@@ -80,6 +83,8 @@ export default function Items() {
       {/* Loading / Error */}
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
+      {addCartError && <p style={{ color: "red" }}>{addCartError}</p>}
+      {addCartSuccess && <p style={{ color: "green" }}>{addCartSuccess}</p>}
 
       {/* Items List */}
       <ul>

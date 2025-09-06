@@ -33,13 +33,16 @@ export default function Cart() {
 
   // Remove from cart
   const handleRemove = async (itemId) => {
+    setError("");
     try {
-      await api.delete(`/cart/remove/${itemId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setCart((prev) => prev.filter((c) => c.itemId._id !== itemId));
+      const { data } = await api.post(
+        "/cart/remove",
+        { itemId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setCart(data.cart || []);
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to remove item");
+      setError(err.response?.data?.message || "Failed to remove item");
     }
   };
 
