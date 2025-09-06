@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 
 import Signup from "./pages/Signup";
+import AddItem from "./pages/AddItem";
 import Login from "./pages/Login";
 import Items from "./pages/Items";
 import Cart from "./pages/Cart";
@@ -30,6 +31,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Cart />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add-item"
+            element={
+              <ProtectedRoute>
+                <AddItem />
               </ProtectedRoute>
             }
           />

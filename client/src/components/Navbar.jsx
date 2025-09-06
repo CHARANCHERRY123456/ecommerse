@@ -17,6 +17,9 @@ export default function Navbar() {
       <div className="flex gap-6 items-center">
         <Link to="/items" className="font-semibold hover:text-blue-300 transition">Items</Link>
         <Link to="/cart" className="font-semibold hover:text-blue-300 transition">Cart</Link>
+        {token && (
+          <Link to="/add-item" className="font-semibold hover:text-green-400 transition">Add Item</Link>
+        )}
       </div>
       <div className="flex gap-4 items-center">
         {token ? (
