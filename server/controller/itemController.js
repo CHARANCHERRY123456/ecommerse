@@ -32,10 +32,6 @@ export async function createItemCtrl(req, res) {
     if (!validCategories.includes(category)) {
       return res.status(400).json({ message: "Invalid category selected" });
     }
-    
-    if (imageUrl && !imageUrl.startsWith('http')) {
-      return res.status(400).json({ message: "Image URL must start with http or https" });
-    }
 
     const item = await createItem(req.body);
     res.status(201).json({ message: "Item created successfully", item });

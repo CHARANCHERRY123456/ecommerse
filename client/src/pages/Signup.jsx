@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import axios from "../api/axios.js";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 export default function Signup() {
   const [form, setForm] = useState({ name: "", email: "", password: "", confirmPassword: "" });
@@ -9,6 +10,7 @@ export default function Signup() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -35,15 +37,25 @@ export default function Signup() {
     const errs = validate();
     if (Object.keys(errs).length) {
       setErrors(errs);
+      const firstError = Object.values(errs)[0];
+      toast.error(firstError);
       return;
     }
+    
+    setLoading(true);
+    
     try {
       const { name, email, password } = form;
       const { data } = await axios.post("/auth/signup", { name, email, password });
       login(data);
+      toast.success("Account created successfully! Welcome to EcoShop!");
       navigate("/items");
     } catch (err) {
-      setServerError(err.response?.data?.message || "Signup failed");
+      const errorMsg = err.response?.data?.message || "Registration failed";
+      setServerError(errorMsg);
+      toast.error(errorMsg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -145,9 +157,17 @@ export default function Signup() {
           
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition duration-200 ease-in-out font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition duration-200 ease-in-out font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
-            Create Account
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
+                Creating Account...
+              </div>
+            ) : (
+              "Create Account"
+            )}
           </button>
         </form>
         

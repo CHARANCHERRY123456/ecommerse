@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import api from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 export default function Items() {
   const { token } = useContext(AuthContext);
@@ -52,21 +53,28 @@ export default function Items() {
 
   const [addCartError, setAddCartError] = useState("");
   const [addCartSuccess, setAddCartSuccess] = useState("");
+  const [addingToCart, setAddingToCart] = useState({});
+  
   const handleAddToCart = async (itemId) => {
     setAddCartError("");
     setAddCartSuccess("");
-    console.log("here addng to cart");
+    setAddingToCart(prev => ({ ...prev, [itemId]: true }));
     
-
     try {
       await api.post(
         "/cart/add",
         { itemId, quantity: 1 }
       );
-      setAddCartSuccess("Item added to cart");
-      navigate("/cart");
+      const successMsg = "Item added to cart successfully!";
+      setAddCartSuccess(successMsg);
+      toast.success(successMsg);
+      setTimeout(() => navigate("/cart"), 1000);
     } catch (err) {
-      setAddCartError(err.response?.data?.message || "Failed to add item");
+      const errorMsg = err.response?.data?.message || "Failed to add item to cart";
+      setAddCartError(errorMsg);
+      toast.error(errorMsg);
+    } finally {
+      setAddingToCart(prev => ({ ...prev, [itemId]: false }));
     }
   };
 
@@ -204,12 +212,22 @@ export default function Items() {
                   <span className="text-2xl font-bold text-gray-900">₹{item.price}</span>
                   <button
                     onClick={() => handleAddToCart(item._id)}
-                    className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-lg hover:from-green-600 hover:to-emerald-700 transition duration-200 ease-in-out font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center"
+                    disabled={addingToCart[item._id]}
+                    className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-lg hover:from-green-600 hover:to-emerald-700 transition duration-200 ease-in-out font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 11-4 0v-6m4 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
-                    </svg>
-                    Add to Cart
+                    {addingToCart[item._id] ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-1"></div>
+                        Adding...
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 11-4 0v-6m4 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
+                        </svg>
+                        Add to Cart
+                      </>
+                    )}
                   </button>
                 </div>
               </div>

@@ -2,6 +2,7 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from 'react-toastify';
 
 export default function Navbar() {
   const { user, token, logout } = useContext(AuthContext);
@@ -9,6 +10,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     logout();
+    toast.success("Logged out successfully! See you soon!");
     navigate("/login");
   };
 

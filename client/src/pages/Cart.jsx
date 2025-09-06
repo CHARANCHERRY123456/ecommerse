@@ -2,6 +2,7 @@
 import { useState, useEffect, useContext } from "react";
 import api from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from 'react-toastify';
 
 export default function Cart() {
   const { token } = useContext(AuthContext);
@@ -34,6 +35,7 @@ export default function Cart() {
   // Remove from cart
   const handleRemove = async (itemId) => {
     setError("");
+    
     try {
       const { data } = await api.post(
         "/cart/remove",
@@ -41,8 +43,11 @@ export default function Cart() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setCart(data.cart || []);
+      toast.success("Item removed from cart");
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to remove item");
+      const errorMsg = err.response?.data?.message || "Failed to remove item";
+      setError(errorMsg);
+      toast.error(errorMsg);
     }
   };
 

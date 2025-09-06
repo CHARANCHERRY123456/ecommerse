@@ -2,6 +2,7 @@
 import { useState } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 export default function AddItem() {
   const categories = [
@@ -26,6 +27,7 @@ export default function AddItem() {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -35,16 +37,20 @@ export default function AddItem() {
   };
 
   const handleSubmit = async (e) => {
-      console.log("calling this only");
     e.preventDefault();
     setError("");
     setSuccess("");
+    
     if (!form.name || !form.price || !form.category) {
-      setError("Name, price, and category are required.");
+      const errorMsg = "Name, price, and category are required.";
+      setError(errorMsg);
+      toast.error(errorMsg);
       return;
     }
+    
+    setLoading(true);
+    
     try {
-        
       await api.post("/items", {
         name: form.name,
         description: form.description,
@@ -52,10 +58,27 @@ export default function AddItem() {
         category: form.category,
         imageUrl: form.imageUrl
       });
-      setSuccess("Item added successfully!");
-      setTimeout(() => navigate("/items"), 1200);
+      
+      const successMsg = "Product added successfully!";
+      setSuccess(successMsg);
+      toast.success(successMsg);
+      
+      // Reset form
+      setForm({
+        name: "",
+        description: "",
+        price: "",
+        category: categories[0],
+        imageUrl: ""
+      });
+      
+      setTimeout(() => navigate("/items"), 1500);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to add item");
+      const errorMsg = err.response?.data?.message || "Failed to add product";
+      setError(errorMsg);
+      toast.error(errorMsg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -202,14 +225,22 @@ export default function AddItem() {
               <div className="pt-6">
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-lg hover:from-purple-700 hover:to-pink-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-lg hover:from-purple-700 hover:to-pink-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                  <div className="flex items-center justify-center">
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    Add Product
-                  </div>
+                  {loading ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
+                      Adding Product...
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      Add Product
+                    </div>
+                  )}
                 </button>
               </div>
             </form>
