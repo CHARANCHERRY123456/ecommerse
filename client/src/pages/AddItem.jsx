@@ -22,6 +22,7 @@ export default function AddItem() {
   };
 
   const handleSubmit = async (e) => {
+      console.log("calling this only");
     e.preventDefault();
     setError("");
     setSuccess("");
@@ -30,6 +31,7 @@ export default function AddItem() {
       return;
     }
     try {
+        
       await api.post("/items", {
         name: form.name,
         description: form.description,

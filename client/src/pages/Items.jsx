@@ -42,6 +42,9 @@ export default function Items() {
   const handleAddToCart = async (itemId) => {
     setAddCartError("");
     setAddCartSuccess("");
+    console.log("here addng to cart");
+    
+
     try {
       await api.post(
         "/cart/add",

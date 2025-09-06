@@ -3,6 +3,8 @@ import Item from "../models/Item.js";
 
 export async function addToCart(userId, itemId, quantity = 1) {
   const user = await User.findById(userId);
+  console.log(user , "is the user ");
+  
   if (!user) throw new Error("User not found");
 
   const item = await Item.findById(itemId);
