@@ -48,85 +48,118 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Signup</h2>
-        {serverError && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-            {serverError}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-100 px-4">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-100">
+        <div className="text-center mb-8">
+          <div className="mx-auto w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mb-4">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+            </svg>
           </div>
-        )}
-        <div className="mb-4">
-          <input
-            name="name"
-            placeholder="Name"
-            value={form.name}
-            onChange={handleChange}
-            required
-            className="border rounded px-3 py-2 w-full focus:outline-none focus:ring"
-          />
-          {errors.name && <div className="text-red-600 text-sm mt-1">{errors.name}</div>}
+          <h2 className="text-3xl font-bold text-gray-800">Create Account</h2>
+          <p className="text-gray-600 mt-2">Join us today</p>
         </div>
-        <div className="mb-4">
-          <input
-            name="email"
-            placeholder="Email"
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-            required
-            className="border rounded px-3 py-2 w-full focus:outline-none focus:ring"
-          />
-          {errors.email && <div className="text-red-600 text-sm mt-1">{errors.email}</div>}
-        </div>
-        <div className="mb-4 relative">
-          <input
-            name="password"
-            placeholder="Password"
-            type={showPassword ? "text" : "password"}
-            value={form.password}
-            onChange={handleChange}
-            required
-            className="border rounded px-3 py-2 w-full focus:outline-none focus:ring"
-          />
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {serverError && (
+            <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center">
+              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              {serverError}
+            </div>
+          )}
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+            <input
+              name="name"
+              placeholder="Enter your full name"
+              value={form.name}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 ease-in-out"
+            />
+            {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+            <input
+              name="email"
+              placeholder="Enter your email"
+              type="email"
+              value={form.email}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 ease-in-out"
+            />
+            {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+            <div className="relative">
+              <input
+                name="password"
+                placeholder="Create a password"
+                type={showPassword ? "text" : "password"}
+                value={form.password}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 ease-in-out pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                className="absolute right-3 top-3 text-gray-500 hover:text-gray-700 transition duration-200"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+            {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+            <div className="relative">
+              <input
+                name="confirmPassword"
+                placeholder="Confirm your password"
+                type={showConfirm ? "text" : "password"}
+                value={form.confirmPassword}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 ease-in-out pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirm((v) => !v)}
+                className="absolute right-3 top-3 text-gray-500 hover:text-gray-700 transition duration-200"
+              >
+                {showConfirm ? "Hide" : "Show"}
+              </button>
+            </div>
+            {errors.confirmPassword && <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>}
+          </div>
+          
           <button
-            type="button"
-            onClick={() => setShowPassword((v) => !v)}
-            className="absolute right-2 top-2 text-sm text-blue-600"
+            type="submit"
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition duration-200 ease-in-out font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
-            {showPassword ? "Hide" : "Show"}
+            Create Account
           </button>
-          {errors.password && <div className="text-red-600 text-sm mt-1">{errors.password}</div>}
+        </form>
+        
+        <div className="mt-6 text-center">
+          <p className="text-gray-600">
+            Already have an account?{' '}
+            <a href="/login" className="text-purple-600 hover:text-purple-700 font-semibold transition duration-200">
+              Sign in
+            </a>
+          </p>
         </div>
-        <div className="mb-6 relative">
-          <input
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            type={showConfirm ? "text" : "password"}
-            value={form.confirmPassword}
-            onChange={handleChange}
-            required
-            className="border rounded px-3 py-2 w-full focus:outline-none focus:ring"
-          />
-          <button
-            type="button"
-            onClick={() => setShowConfirm((v) => !v)}
-            className="absolute right-2 top-2 text-sm text-blue-600"
-          >
-            {showConfirm ? "Hide" : "Show"}
-          </button>
-          {errors.confirmPassword && <div className="text-red-600 text-sm mt-1">{errors.confirmPassword}</div>}
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition font-semibold"
-        >
-          Signup
-        </button>
-      </form>
+      </div>
     </div>
   );
 }
