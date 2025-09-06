@@ -9,9 +9,38 @@ import {
 
 export async function createItemCtrl(req, res) {
   try {
+    const { name, price, category, description, imageUrl } = req.body;
+    
+    // Enhanced validation
+    if (!name || !price || !category) {
+      return res.status(400).json({ message: "Name, price, and category are required" });
+    }
+    
+    if (name.trim().length < 2) {
+      return res.status(400).json({ message: "Product name must be at least 2 characters long" });
+    }
+    
+    if (price < 0) {
+      return res.status(400).json({ message: "Price cannot be negative" });
+    }
+    
+    if (price > 1000000) {
+      return res.status(400).json({ message: "Price cannot exceed ₹10,00,000" });
+    }
+    
+    const validCategories = ["Food", "Electronics", "Clothing", "Books", "Home", "Beauty", "Sports", "Toys", "Automotive", "Health", "Other"];
+    if (!validCategories.includes(category)) {
+      return res.status(400).json({ message: "Invalid category selected" });
+    }
+    
+    if (imageUrl && !imageUrl.startsWith('http')) {
+      return res.status(400).json({ message: "Image URL must start with http or https" });
+    }
+
     const item = await createItem(req.body);
-    res.status(201).json({ message: "Item created", item });
+    res.status(201).json({ message: "Item created successfully", item });
   } catch (err) {
+    console.error("Create item error:", err.message);
     res.status(400).json({ message: err.message });
   }
 }
