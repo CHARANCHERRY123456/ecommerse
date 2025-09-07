@@ -25,6 +25,7 @@ export default function Items() {
     "Health",
     "Other"
   ];
+  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({ category: "", minPrice: "", maxPrice: "" });
 
   // Fetch items
@@ -86,49 +87,138 @@ export default function Items() {
           <p className="text-lg text-gray-600">Find the perfect items for you</p>
         </div>
 
-        {/* Filters */}
-        <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-8 border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Filter Products</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-              <select
-                value={filters.category}
-                onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white transition duration-200"
-              >
-                <option value="">All Categories</option>
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Min Price (₹)</label>
-              <input
-                type="number"
-                placeholder="0"
-                value={filters.minPrice}
-                onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Max Price (₹)</label>
-              <input
-                type="number"
-                placeholder="10000"
-                value={filters.maxPrice}
-                onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-              />
-            </div>
+        {/* Professional Filter Design */}
+        <div className="mb-6">
+          {/* Filter Toggle Button (Mobile) */}
+          <div className="flex items-center justify-between mb-4 lg:hidden">
             <button
-              onClick={fetchItems}
-              className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition duration-200 ease-in-out font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition duration-200"
             >
-              Apply Filters
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z" />
+              </svg>
+              <span className="font-medium text-gray-700">Filters</span>
+              <svg className={`w-4 h-4 text-gray-600 transition-transform duration-200 ${showFilters ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
             </button>
+            
+            {/* Active Filters Indicator */}
+            {(filters.category || filters.minPrice || filters.maxPrice) && (
+              <button
+                onClick={() => setFilters({ category: "", minPrice: "", maxPrice: "" })}
+                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+              >
+                Clear all
+              </button>
+            )}
+          </div>
+
+          {/* Filter Content */}
+          <div className={`bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden transition-all duration-300 ${showFilters ? 'block' : 'hidden'} lg:block`}>
+            <div className="p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Category Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                  <select
+                    value={filters.category}
+                    onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-sm"
+                  >
+                    <option value="">All Categories</option>
+                    {categories.map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Price Range */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Min Price (₹)</label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    value={filters.minPrice}
+                    onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Max Price (₹)</label>
+                  <input
+                    type="number"
+                    placeholder="50000"
+                    value={filters.maxPrice}
+                    onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  />
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col space-y-2">
+                  <button
+                    onClick={fetchItems}
+                    className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium transition duration-200 text-sm"
+                  >
+                    Apply Filters
+                  </button>
+                  <button
+                    onClick={() => {
+                      setFilters({ category: "", minPrice: "", maxPrice: "" });
+                      fetchItems();
+                    }}
+                    className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md font-medium transition duration-200 text-sm"
+                  >
+                    Clear All
+                  </button>
+                </div>
+              </div>
+
+              {/* Active Filters Pills */}
+              {(filters.category || filters.minPrice || filters.maxPrice) && (
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <div className="flex flex-wrap gap-2">
+                    <span className="text-sm font-medium text-gray-600">Active filters:</span>
+                    {filters.category && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        Category: {filters.category}
+                        <button
+                          onClick={() => setFilters({ ...filters, category: "" })}
+                          className="ml-2 text-blue-600 hover:text-blue-800"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
+                    {filters.minPrice && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Min: ₹{filters.minPrice}
+                        <button
+                          onClick={() => setFilters({ ...filters, minPrice: "" })}
+                          className="ml-2 text-green-600 hover:text-green-800"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
+                    {filters.maxPrice && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                        Max: ₹{filters.maxPrice}
+                        <button
+                          onClick={() => setFilters({ ...filters, maxPrice: "" })}
+                          className="ml-2 text-purple-600 hover:text-purple-800"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
