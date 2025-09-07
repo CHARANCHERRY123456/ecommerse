@@ -59,10 +59,10 @@ export default function Cart() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Shopping Cart</h1>
-          <p className="text-lg text-gray-600">Review your selected items</p>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="text-center mb-6 sm:mb-10">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Shopping Cart</h1>
+          <p className="text-base sm:text-lg text-gray-600">Review your selected items</p>
         </div>
 
         {/* Alerts */}
@@ -106,19 +106,19 @@ export default function Cart() {
         {/* Cart Items */}
         {!loading && cart.length > 0 && (
           <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-            <div className="p-6 border-b border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-800">Items in your cart</h2>
+            <div className="p-4 sm:p-6 border-b border-gray-100">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Items in your cart</h2>
             </div>
             
             <div className="divide-y divide-gray-100">
               {cart.map((c) => (
                 <div
                   key={c.itemId._id}
-                  className="p-6 hover:bg-gray-50 transition duration-200"
+                  className="p-4 sm:p-6 hover:bg-gray-50 transition duration-200"
                 >
-                  <div className="flex items-center space-x-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
                     {/* Image */}
-                    <div className="flex-shrink-0 w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
+                    <div className="flex-shrink-0 w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center mx-auto sm:mx-0">
                       {c.itemId.imageUrl ? (
                         <img 
                           src={c.itemId.imageUrl} 
@@ -133,21 +133,21 @@ export default function Cart() {
                     </div>
                     
                     {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold text-gray-900 truncate">{c.itemId.name}</h3>
-                      <div className="mt-1 flex items-center space-x-4 text-sm text-gray-500">
+                    <div className="flex-1 min-w-0 text-center sm:text-left">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate">{c.itemId.name}</h3>
+                      <div className="mt-1 flex flex-col sm:flex-row items-center sm:items-start space-y-1 sm:space-y-0 sm:space-x-4 text-sm text-gray-500">
                         <span className="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">
                           {c.itemId.category}
                         </span>
                         <span>Quantity: {c.quantity}</span>
                       </div>
-                      <p className="mt-2 text-xl font-bold text-gray-900">₹{c.itemId.price}</p>
+                      <p className="mt-2 text-lg sm:text-xl font-bold text-gray-900">₹{c.itemId.price}</p>
                     </div>
                     
                     {/* Remove Button */}
                     <button
                       onClick={() => handleRemove(c.itemId._id)}
-                      className="flex-shrink-0 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-200 ease-in-out font-medium shadow-sm hover:shadow-md flex items-center"
+                      className="w-full sm:w-auto flex-shrink-0 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-200 ease-in-out font-medium shadow-sm hover:shadow-md flex items-center justify-center"
                     >
                       <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -160,12 +160,12 @@ export default function Cart() {
             </div>
             
             {/* Total */}
-            <div className="p-6 bg-gray-50 border-t border-gray-100">
-              <div className="flex justify-between items-center">
-                <span className="text-lg font-medium text-gray-600">Total Amount:</span>
-                <span className="text-2xl font-bold text-gray-900">₹{total}</span>
+            <div className="p-4 sm:p-6 bg-gray-50 border-t border-gray-100">
+              <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+                <span className="text-base sm:text-lg font-medium text-gray-600">Total Amount:</span>
+                <span className="text-xl sm:text-2xl font-bold text-gray-900">₹{total}</span>
               </div>
-              <button className="w-full mt-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-lg hover:from-green-600 hover:to-emerald-700 transition duration-200 ease-in-out font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+              <button className="w-full mt-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-lg hover:from-green-600 hover:to-emerald-700 transition duration-200 ease-in-out font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                 Proceed to Checkout
               </button>
             </div>

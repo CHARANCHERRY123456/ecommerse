@@ -87,9 +87,9 @@ export default function Items() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100">
+        <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-8 border border-gray-100">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Filter Products</h3>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
               <select
@@ -125,7 +125,7 @@ export default function Items() {
             </div>
             <button
               onClick={fetchItems}
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition duration-200 ease-in-out font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition duration-200 ease-in-out font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
               Apply Filters
             </button>
@@ -200,20 +200,20 @@ export default function Items() {
               </div>
               
               {/* Content */}
-              <div className="p-6">
+              <div className="p-4 sm:p-6">
                 <div className="flex items-center justify-between mb-2">
                   <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">
                     {item.category}
                   </span>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{item.name}</h3>
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{item.name}</h3>
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">{item.description || "No description available"}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-gray-900">₹{item.price}</span>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <span className="text-xl sm:text-2xl font-bold text-gray-900">₹{item.price}</span>
                   <button
                     onClick={() => handleAddToCart(item._id)}
                     disabled={addingToCart[item._id]}
-                    className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-lg hover:from-green-600 hover:to-emerald-700 transition duration-200 ease-in-out font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-lg hover:from-green-600 hover:to-emerald-700 transition duration-200 ease-in-out font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm"
                   >
                     {addingToCart[item._id] ? (
                       <>

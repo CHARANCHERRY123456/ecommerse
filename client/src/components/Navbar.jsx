@@ -1,5 +1,5 @@
 // src/components/Navbar.jsx
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from 'react-toastify';
@@ -7,18 +7,25 @@ import { toast } from 'react-toastify';
 export default function Navbar() {
   const { user, token, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     toast.success("Logged out successfully! See you soon!");
     navigate("/login");
+    setIsMobileMenuOpen(false);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
 
   return (
     <nav className="bg-white shadow-lg border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-8">
+          {/* Logo and Brand */}
+          <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -27,38 +34,40 @@ export default function Navbar() {
               </div>
               <span className="text-xl font-bold text-gray-800">EcoShop</span>
             </div>
-            
-            <div className="hidden md:flex items-center space-x-6">
-              <Link 
-                to="/items" 
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 hover:bg-blue-50"
-              >
-                Products
-              </Link>
-              <Link 
-                to="/cart" 
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 hover:bg-blue-50 flex items-center"
-              >
-                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 11-4 0v-6m4 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
-                </svg>
-                Cart
-              </Link>
-              {token && (
-                <Link 
-                  to="/add-item" 
-                  className="text-green-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 hover:bg-green-50 flex items-center"
-                >
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                  Add Item
-                </Link>
-              )}
-            </div>
           </div>
           
-          <div className="flex items-center space-x-4">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-6">
+            <Link 
+              to="/items" 
+              className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 hover:bg-blue-50"
+            >
+              Products
+            </Link>
+            <Link 
+              to="/cart" 
+              className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 hover:bg-blue-50 flex items-center"
+            >
+              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 11-4 0v-6m4 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
+              </svg>
+              Cart
+            </Link>
+            {token && (
+              <Link 
+                to="/add-item" 
+                className="text-green-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 hover:bg-green-50 flex items-center"
+              >
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Add Item
+              </Link>
+            )}
+          </div>
+          
+          {/* Desktop Auth Section */}
+          <div className="hidden md:flex items-center space-x-4">
             {token ? (
               <>
                 <div className="flex items-center space-x-3">
@@ -67,7 +76,7 @@ export default function Navbar() {
                       {user?.name?.charAt(0)?.toUpperCase() || "U"}
                     </span>
                   </div>
-                  <span className="text-gray-700 font-medium hidden sm:block">
+                  <span className="text-gray-700 font-medium">
                     {user?.name || "User"}
                   </span>
                 </div>
@@ -95,8 +104,104 @@ export default function Navbar() {
               </div>
             )}
           </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition duration-200"
+            >
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                {isMobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200 shadow-lg">
+            {/* Mobile Navigation Links */}
+            <Link 
+              to="/items"
+              onClick={closeMobileMenu}
+              className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200 hover:bg-blue-50"
+            >
+              Products
+            </Link>
+            <Link 
+              to="/cart"
+              onClick={closeMobileMenu}
+              className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200 hover:bg-blue-50 flex items-center"
+            >
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 11-4 0v-6m4 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
+              </svg>
+              Cart
+            </Link>
+            {token && (
+              <Link 
+                to="/add-item"
+                onClick={closeMobileMenu}
+                className="text-green-700 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200 hover:bg-green-50 flex items-center"
+              >
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Add Item
+              </Link>
+            )}
+            
+            {/* Mobile Auth Section */}
+            <div className="border-t border-gray-200 pt-4">
+              {token ? (
+                <>
+                  <div className="flex items-center px-3 py-2">
+                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                      <span className="text-blue-600 font-semibold text-sm">
+                        {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                      </span>
+                    </div>
+                    <span className="text-gray-700 font-medium">
+                      {user?.name || "User"}
+                    </span>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md text-base font-medium transition duration-200 mt-2 mx-3"
+                    style={{ width: 'calc(100% - 24px)' }}
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <div className="space-y-2">
+                  <Link 
+                    to="/login"
+                    onClick={closeMobileMenu}
+                    className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200 hover:bg-blue-50"
+                  >
+                    Login
+                  </Link>
+                  <Link 
+                    to="/signup"
+                    onClick={closeMobileMenu}
+                    className="block bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-base font-medium transition duration-200 mx-3"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
