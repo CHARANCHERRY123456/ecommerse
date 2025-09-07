@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 export default function Login() {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ email: "cherry@gmail.com", password: "cherry" });
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
