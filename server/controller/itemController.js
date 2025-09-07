@@ -1,4 +1,3 @@
-// src/controllers/itemController.js
 import {
   createItem,
   getItems,
@@ -11,7 +10,6 @@ export async function createItemCtrl(req, res) {
   try {
     const { name, price, category, description, imageUrl } = req.body;
     
-    // Enhanced validation
     if (!name || !price || !category) {
       return res.status(400).json({ message: "Name, price, and category are required" });
     }

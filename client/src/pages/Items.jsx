@@ -1,4 +1,3 @@
-// src/pages/Items.jsx
 import { useState, useEffect, useContext } from "react";
 import api from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
@@ -28,7 +27,6 @@ export default function Items() {
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({ category: "", minPrice: "", maxPrice: "" });
 
-  // Fetch items
   const fetchItems = async () => {
     setLoading(true);
     setError("");
@@ -87,9 +85,7 @@ export default function Items() {
           <p className="text-lg text-gray-600">Find the perfect items for you</p>
         </div>
 
-        {/* Professional Filter Design */}
         <div className="mb-6">
-          {/* Filter Toggle Button (Mobile) */}
           <div className="flex items-center justify-between mb-4 lg:hidden">
             <button
               onClick={() => setShowFilters(!showFilters)}

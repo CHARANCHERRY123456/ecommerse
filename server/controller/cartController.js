@@ -4,7 +4,6 @@ export async function addToCartCtrl(req, res) {
   try {
     const { itemId, quantity } = req.body;
     
-    // Enhanced validation
     if (!itemId) {
       return res.status(400).json({ message: "Item ID is required" });
     }
@@ -31,7 +30,6 @@ export async function removeFromCartCtrl(req, res) {
   try {
     const { itemId } = req.body;
     
-    // Enhanced validation
     if (!itemId) {
       return res.status(400).json({ message: "Item ID is required" });
     }

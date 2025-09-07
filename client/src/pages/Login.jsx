@@ -1,4 +1,3 @@
-// src/pages/Login.jsx
 import { useState, useContext } from "react";
 import api from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
@@ -23,7 +22,7 @@ export default function Login() {
     
     try {
       const { data } = await api.post("/auth/login", form);
-      login(data); // sets token + user in context
+      login(data);
       toast.success("Login successful! Welcome back!");
       navigate("/items");
     } catch (err) {
